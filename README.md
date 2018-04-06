@@ -59,9 +59,9 @@ const dompurify = createDOMPurify(window);
 dompurify.sanitize('<img src="x" onerror=alert(1)/>'); // -> type: String, result: `<img src="x">`
 ```
 
-## Options
+## Supported Helper Attributes
 
-[DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it)
+All DOMPurify options are supported, [DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it).
 
 Contributing
 ------------------------------------------------------------------------------
