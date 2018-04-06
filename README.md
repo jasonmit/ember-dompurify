@@ -1,14 +1,19 @@
-ember-dompurify
-==============================================================================
+# ember-dompurify
+[![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
+[![npm Version][npm-badge]][npm]
+[![Ember Observer Score](http://emberobserver.com/badges/ember-dompurify.svg)](http://emberobserver.com/addons/ember-dompurify)
+[![Ember badge][ember-badge]][embadge]
 
 ## Installation
-------------------------------------------------------------------------------
 
 ```sh
 ember i ember-dompurify
 ```
 
 ## Helper usage
+
+
+### Basic
 
 ```hbs
 {{safer-html-safe '<img src="x" onerror=alert(1) />'}}
@@ -17,6 +22,34 @@ ember i ember-dompurify
 Returns an htmlSafe string:
 ```html
 <img src="x">
+```
+
+### Advanced
+
+```js
+import { Transform } from 'ember-dompurify';
+
+class AttributeBlankTransform extends Transform {
+  afterSanitizeAttributes(node) {
+    if ('target' in node) {
+      node.setAttribute('target', '_blank');
+    }
+  }
+}
+
+export default Component.extend({
+  AttributeBlankTransform
+});
+```
+
+```hbs
+{{safer-html-safe '<a src="https://google.com">Link</a>' transform=transform}}
+```
+
+Result:
+
+```html
+'<a src="https://google.com" target="_blank">Link</a>'
 ```
 
 ## API
@@ -63,3 +96,8 @@ License
 ------------------------------------------------------------------------------
 
 This project is licensed under the [MIT License](LICENSE.md).
+
+[embadge]: http://embadge.io/
+[ember-badge]: http://embadge.io/v1/badge.svg?start=1.0.0
+[npm]: https://www.npmjs.org/package/ember-dompurify
+[npm-badge]: https://img.shields.io/npm/v/ember-dompurify.svg?style=flat-square
