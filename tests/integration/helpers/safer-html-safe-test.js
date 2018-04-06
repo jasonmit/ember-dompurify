@@ -21,14 +21,14 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
   });
 
   test('it works', async function(assert) {
-    await render(hbs`{{safer-html-safe '<img src=x onerror=alert(1)//>'}}`);
+    await render(hbs`{{safer-html-safe '<img src=x onerror=alert(1) />'}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
 
   test('it accepts dompurify options (normalized)', async function(assert) {
     await render(
-      hbs`{{safer-html-safe '<img src=x data-srcset="foobar"//>' allow-data-attr=false}}`
+      hbs`{{safer-html-safe '<img src=x data-srcset="foobar" />' allow-data-attr=false}}`
     );
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
@@ -36,18 +36,18 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
 
   test('it accepts dompurify options', async function(assert) {
     await render(
-      hbs`{{safer-html-safe '<img src=x data-srcset="foobar"//>' ALLOW_DATA_ATTR=false}}`
+      hbs`{{safer-html-safe '<img src=x data-srcset="foobar" />' ALLOW_DATA_ATTR=false}}`
     );
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
 
   test('it invokes hooks', async function(assert) {
-    assert.expect(1);
+    assert.expect(2); /* once for src, once for onerror */
     this.set('uponSanitizeAttribute', () => assert.ok(true));
 
     await render(
-      hbs`{{safer-html-safe '<img onerror=alert(1)//>' uponSanitizeAttribute=uponSanitizeAttribute}}`
+      hbs`{{safer-html-safe '<img src="x" onerror=alert(1) />' uponSanitizeAttribute=uponSanitizeAttribute}}`
     );
   });
 

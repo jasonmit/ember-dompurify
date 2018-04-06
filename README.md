@@ -1,21 +1,36 @@
 ember-dompurify
 ==============================================================================
 
-[Short description of the addon.]
-
-Installation
+## Installation
 ------------------------------------------------------------------------------
 
+```sh
+ember i ember-dompurify
 ```
-ember install ember-dompurify
+
+## Helper usage
+
+```hbs
+{{safer-html-safe '<img src="x" onerror=alert(1) />'}}
 ```
 
+Returns an htmlSafe string:
+```html
+<img src="x">
+```
 
-Usage
-------------------------------------------------------------------------------
+## API
 
-[Longer description of how to use the addon in apps.]
+```js
+import createDOMPurify from 'ember-dompurify';
 
+const dompurify = createDOMPurify(window);
+dompurify.sanitize('<img src="x" onerror=alert(1)/>'); // -> type: String, result: `<img src="x">`
+```
+
+## Options
+
+[DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it)
 
 Contributing
 ------------------------------------------------------------------------------
