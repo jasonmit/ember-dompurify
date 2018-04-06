@@ -35,12 +35,16 @@ function parseNamedAttributes(attrs, domPurifyInstance) {
   return { config, hooks };
 }
 
-export function htmlSafer([text = ''], attrs = {}) {
+export function htmlSafer([value = ''], attrs = {}) {
+  if (typeof value !== 'string' || value.length === 0) {
+    return;
+  }
+
   const domPurifyInstance = createDOMPurify(self);
   const { config, hooks } = parseNamedAttributes(attrs, domPurifyInstance);
   hooks.forEach(([hookName, fn]) => domPurifyInstance.addHook(hookName, fn));
 
-  return htmlSafe(domPurifyInstance.sanitize(text, config));
+  return htmlSafe(domPurifyInstance.sanitize(value, config));
 }
 
 export default helper(htmlSafer);
