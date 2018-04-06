@@ -25,7 +25,11 @@ export default Helper.extend({
     return key.toUpperCase().replace(/-/g, '_');
   },
 
-  _parse(attrs, { target, owner }) {
+  _lookupPurifier(name) {
+    return this._owner.factoryFor(`purifier:${name}`).class;
+  },
+
+  _parse(attrs) {
     const config = Object.create(null);
     const hooks = [];
 
@@ -34,12 +38,12 @@ export default Helper.extend({
         let Transform;
 
         if (typeof attrs[key] === 'string') {
-          Transform = owner.factoryFor(`purifier:${attrs[key]}`).class;
+          Transform = this._lookupPurifier(attrs[key]);
         } else {
           Transform = attrs[key];
         }
 
-        const transform = new Transform(target);
+        const transform = new Transform();
         HOOK_ATTRS.forEach(key =>
           hooks.push([key, (...args) => transform[key](...args)])
         );
@@ -66,14 +70,10 @@ export default Helper.extend({
       return;
     }
 
-    const domPurify = createDOMPurify(self);
-    const { config, hooks } = this._parse(attrs, {
-      target: domPurify,
-      owner: this._owner
-    });
+    const purifier = createDOMPurify(self);
+    const { config, hooks } = this._parse(attrs);
+    hooks.forEach(([hookName, fn]) => purifier.addHook(hookName, fn));
 
-    hooks.forEach(([hookName, fn]) => domPurify.addHook(hookName, fn));
-
-    return htmlSafe(domPurify.sanitize(inputString, config));
+    return htmlSafe(purifier.sanitize(inputString, config));
   }
 });
