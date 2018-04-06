@@ -19,6 +19,7 @@
     "test": "ember try:each"
   },
   "dependencies": {
+    "dompurify": "^1.0.3",
     "ember-cli-babel": "^6.6.0"
   },
   "devDependencies": {
@@ -38,6 +39,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-open-browser": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~3.0.0",
     "ember-source-channel-url": "^1.0.1",
