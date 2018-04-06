@@ -1,6 +1,6 @@
 {
   "name": "ember-dompurify",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "An Ember addon that wraps DOMPurify.",
   "keywords": [
     "ember-addon",
