@@ -2,7 +2,6 @@
 
 [![npm Version][npm-badge]][npm]
 [![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
-[![Ember Observer Score](http://emberobserver.com/badges/ember-dompurify.svg)](http://emberobserver.com/addons/ember-dompurify)
 
 ## Installation
 
