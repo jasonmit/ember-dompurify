@@ -2,7 +2,6 @@
 [![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
 [![npm Version][npm-badge]][npm]
 [![Ember Observer Score](http://emberobserver.com/badges/ember-dompurify.svg)](http://emberobserver.com/addons/ember-dompurify)
-[![Ember badge][ember-badge]][embadge]
 
 ## Installation
 
@@ -96,8 +95,5 @@ License
 ------------------------------------------------------------------------------
 
 This project is licensed under the [MIT License](LICENSE.md).
-
-[embadge]: http://embadge.io/
-[ember-badge]: http://embadge.io/v1/badge.svg?start=1.0.0
 [npm]: https://www.npmjs.org/package/ember-dompurify
 [npm-badge]: https://img.shields.io/npm/v/ember-dompurify.svg?style=flat-square
