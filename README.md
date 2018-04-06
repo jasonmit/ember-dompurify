@@ -15,7 +15,7 @@ ember i ember-dompurify
 ### Basic
 
 ```hbs
-{{html-safer '<img src="x" onerror=alert(1) />'}}
+{{dom-purify '<img src="x" onerror=alert(1) />'}}
 ```
 
 Returns an htmlSafe string:
@@ -42,7 +42,7 @@ export default Component.extend({
 ```
 
 ```hbs
-{{html-safer '<a src="https://google.com">Link</a>' transform=transform}}
+{{dom-purify '<a src="https://google.com">Link</a>' transform=transform}}
 ```
 
 Result:
