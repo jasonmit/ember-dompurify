@@ -26,23 +26,20 @@ Returns an htmlSafe string:
 ### Advanced
 
 ```js
+// app/purifiers/target-blank.js
 import { Transform } from 'ember-dompurify';
 
-class AttributeBlankTransform extends Transform {
+export default class TargetBlankTransform extends Transform {
   afterSanitizeAttributes(node) {
     if ('target' in node) {
       node.setAttribute('target', '_blank');
     }
   }
 }
-
-export default Component.extend({
-  AttributeBlankTransform
-});
 ```
 
 ```hbs
-{{dom-purify '<a src="https://google.com">Link</a>' transform=transform}}
+{{dom-purify '<a src="https://google.com">Link</a>' transform='target-blank'}}
 ```
 
 Result:
