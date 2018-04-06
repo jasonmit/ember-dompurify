@@ -1,6 +1,7 @@
 # ember-dompurify
-[![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
+
 [![npm Version][npm-badge]][npm]
+[![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
 [![Ember Observer Score](http://emberobserver.com/badges/ember-dompurify.svg)](http://emberobserver.com/addons/ember-dompurify)
 
 ## Installation
@@ -94,6 +95,7 @@ For more information on using ember-cli, visit [https://ember-cli.com/](https://
 License
 ------------------------------------------------------------------------------
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](LICENSE.md)
+
 [npm]: https://www.npmjs.org/package/ember-dompurify
 [npm-badge]: https://img.shields.io/npm/v/ember-dompurify.svg?style=flat-square
