@@ -63,6 +63,11 @@ dompurify.sanitize('<img src="x" onerror=alert(1)/>'); // -> type: String, resul
 
 All DOMPurify options are supported, [DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it).
 
+Example:
+```hbs
+{{dom-purify model.notes keep-content=true}}
+```
+
 Contributing
 ------------------------------------------------------------------------------
 
