@@ -28,7 +28,7 @@ module('Integration | Helper | html-safer', function(hooks) {
   });
 
   test('it unpacks safe strings', async function(assert) {
-    this.set('safeString', htmlSafe('<img src=x onerror=alert(1) />'))
+    this.set('safeString', htmlSafe('<img src=x onerror=alert(1) />'));
     await render(hbs`{{html-safer safeString}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
@@ -130,5 +130,15 @@ module('Integration | Helper | html-safer', function(hooks) {
       this.element.innerHTML.trim(),
       '<a src="http://google.com" target="_blank">Link</a>'
     );
+  });
+
+  test('it can handle falsey values passed in', async function(assert) {
+    this.set('input', undefined);
+    await render(hbs`{{html-safer input}}`);
+
+    [undefined, null, false, ''].forEach((input) => {
+      this.set('input', input);
+      assert.equal(this.element.innerHTML.trim(), '');
+    })
   });
 });
