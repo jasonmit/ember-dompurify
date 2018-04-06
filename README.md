@@ -3,6 +3,8 @@
 [![npm Version][npm-badge]][npm]
 [![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
 
+A wrapper around [DOMPurify](https://github.com/cure53/DOMPurify).
+
 ## Installation
 
 ```sh
