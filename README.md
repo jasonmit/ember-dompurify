@@ -42,7 +42,7 @@ export default Component.extend({
 ```
 
 ```hbs
-{{html-safer '<a src="https://google.com">Link</a>' transform=transform}}
+{{html-safer '<a src="https://google.com">Link</a>' transform=AttributeBlankTransform}}
 ```
 
 Result:
