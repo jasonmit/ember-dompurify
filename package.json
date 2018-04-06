@@ -1,17 +1,18 @@
 {
   "name": "ember-dompurify",
   "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An Ember addon that wraps DOMPurify.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "dompurify"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Jason Mitchell <jason.mitchell.w@gmail.com>",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "",
+  "repository": "git@github.com:jasonmit/ember-dompurify.git",
   "scripts": {
     "build": "ember build",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
@@ -24,7 +25,6 @@
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
-    "ember-ajax": "^3.0.0",
     "ember-cli": "~3.0.2",
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-eslint": "^4.2.1",
