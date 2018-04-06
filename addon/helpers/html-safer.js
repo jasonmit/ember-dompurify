@@ -1,6 +1,6 @@
-import { htmlSafe } from '@ember/string';
 import createDOMPurify from 'dompurify';
 import { helper } from '@ember/component/helper';
+import { htmlSafe, isHTMLSafe } from '@ember/string';
 
 const HOOK_ATTRS = [
   'beforeSanitizeElements',
@@ -36,7 +36,18 @@ function parseNamedAttributes(attrs, domPurifyInstance) {
 }
 
 export function htmlSafer([value = ''], attrs = {}) {
-  if (typeof value !== 'string' || value.length === 0) {
+  if (!value) {
+    return;
+  }
+
+  let inputString = value;
+
+  if (isHTMLSafe(inputString)) {
+    /* unwrap safeString */
+    inputString = inputString.toString();
+  }
+
+  if (typeof inputString !== 'string' || inputString.length === 0) {
     return;
   }
 

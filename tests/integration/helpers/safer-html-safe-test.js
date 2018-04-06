@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import { htmlSafe } from '@ember/string';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { setupRenderingTest } from 'ember-qunit';
 import createPurify, { Transform } from 'ember-dompurify';
 
 module('Integration | Helper | html-safer', function(hooks) {
@@ -22,6 +23,13 @@ module('Integration | Helper | html-safer', function(hooks) {
 
   test('it works', async function(assert) {
     await render(hbs`{{html-safer '<img src=x onerror=alert(1) />'}}`);
+
+    assert.equal(this.element.innerHTML.trim(), '<img src="x">');
+  });
+
+  test('it unpacks safe strings', async function(assert) {
+    this.set('safeString', htmlSafe('<img src=x onerror=alert(1) />'))
+    await render(hbs`{{html-safer safeString}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
