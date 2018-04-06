@@ -49,7 +49,7 @@ export default Component.extend({
 Result:
 
 ```html
-'<a src="https://google.com" target="_blank">Link</a>'
+<a src="https://google.com" target="_blank">Link</a>
 ```
 
 ## API
