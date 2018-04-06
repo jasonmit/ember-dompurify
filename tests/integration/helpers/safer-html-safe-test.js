@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import createPurify, { Transform } from 'ember-dompurify';
 
-module('Integration | Helper | safer-html-safe', function(hooks) {
+module('Integration | Helper | html-safer', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it exists', function(assert) {
@@ -15,20 +15,20 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
   test('it renders', async function(assert) {
     this.set('inputValue', '1234');
 
-    await render(hbs`{{safer-html-safe inputValue}}`);
+    await render(hbs`{{html-safer inputValue}}`);
 
     assert.equal(this.element.innerHTML.trim(), '1234');
   });
 
   test('it works', async function(assert) {
-    await render(hbs`{{safer-html-safe '<img src=x onerror=alert(1) />'}}`);
+    await render(hbs`{{html-safer '<img src=x onerror=alert(1) />'}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
 
   test('it accepts dompurify options (normalized)', async function(assert) {
     await render(
-      hbs`{{safer-html-safe '<img src=x data-srcset="foobar" />' allow-data-attr=false}}`
+      hbs`{{html-safer '<img src=x data-srcset="foobar" />' allow-data-attr=false}}`
     );
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
@@ -36,7 +36,7 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
 
   test('it accepts dompurify options', async function(assert) {
     await render(
-      hbs`{{safer-html-safe '<img src=x data-srcset="foobar" />' ALLOW_DATA_ATTR=false}}`
+      hbs`{{html-safer '<img src=x data-srcset="foobar" />' ALLOW_DATA_ATTR=false}}`
     );
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
@@ -47,7 +47,7 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
     this.set('uponSanitizeAttribute', () => assert.ok(true));
 
     await render(
-      hbs`{{safer-html-safe '<img src="x" onerror=alert(1) />' uponSanitizeAttribute=uponSanitizeAttribute}}`
+      hbs`{{html-safer '<img src="x" onerror=alert(1) />' uponSanitizeAttribute=uponSanitizeAttribute}}`
     );
   });
 
@@ -98,7 +98,7 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
       }
     );
 
-    await render(hbs`{{safer-html-safe '<a>' transform=transform}}`);
+    await render(hbs`{{html-safer '<a>' transform=transform}}`);
   });
 
   test('it can transform elements', async function(assert) {
@@ -116,7 +116,7 @@ module('Integration | Helper | safer-html-safe', function(hooks) {
     );
 
     await render(
-      hbs`{{safer-html-safe '<a src="http://google.com">Link</a>' transform=transform}}`
+      hbs`{{html-safer '<a src="http://google.com">Link</a>' transform=transform}}`
     );
     assert.equal(
       this.element.innerHTML.trim(),
