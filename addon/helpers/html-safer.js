@@ -35,7 +35,7 @@ function parseNamedAttributes(attrs, domPurifyInstance) {
   return { config, hooks };
 }
 
-export function saferHtmlSafe([text = ''], attrs = {}) {
+export function htmlSafer([text = ''], attrs = {}) {
   const domPurifyInstance = createDOMPurify(self);
   const { config, hooks } = parseNamedAttributes(attrs, domPurifyInstance);
   hooks.forEach(([hookName, fn]) => domPurifyInstance.addHook(hookName, fn));
@@ -43,4 +43,4 @@ export function saferHtmlSafe([text = ''], attrs = {}) {
   return htmlSafe(domPurifyInstance.sanitize(text, config));
 }
 
-export default helper(saferHtmlSafe);
+export default helper(htmlSafer);

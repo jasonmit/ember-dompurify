@@ -1,1 +1,1 @@
-export { default, saferHtmlSafe } from 'ember-dompurify/helpers/html-safer';
+export { default, htmlSafer } from 'ember-dompurify/helpers/html-safer';
