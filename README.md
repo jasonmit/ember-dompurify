@@ -3,6 +3,8 @@
 [![npm Version][npm-badge]][npm]
 [![Build Status](https://travis-ci.org/jasonmit/ember-dompurify.svg?branch=master)](https://travis-ci.org/jasonmit/ember-dompurify)
 
+A wrapper around [DOMPurify](https://github.com/cure53/DOMPurify).
+
 ## Installation
 
 ```sh
@@ -26,23 +28,20 @@ Returns an htmlSafe string:
 ### Advanced
 
 ```js
+// app/purifiers/target-blank.js
 import { Transform } from 'ember-dompurify';
 
-class AttributeBlankTransform extends Transform {
+export default class TargetBlankTransform extends Transform {
   afterSanitizeAttributes(node) {
     if ('target' in node) {
       node.setAttribute('target', '_blank');
     }
   }
 }
-
-export default Component.extend({
-  AttributeBlankTransform
-});
 ```
 
 ```hbs
-{{dom-purify '<a src="https://google.com">Link</a>' transform=transform}}
+{{dom-purify '<a src="https://google.com">Link</a>' transform='target-blank'}}
 ```
 
 Result:
@@ -60,9 +59,14 @@ const dompurify = createDOMPurify(window);
 dompurify.sanitize('<img src="x" onerror=alert(1)/>'); // -> type: String, result: `<img src="x">`
 ```
 
-## Options
+## Supported Helper Attributes
 
-[DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it)
+All DOMPurify options are supported, [DOMPurify options](https://github.com/cure53/DOMPurify#can-i-configure-it).
+
+Example:
+```hbs
+{{dom-purify model.notes keep-content=true}}
+```
 
 Contributing
 ------------------------------------------------------------------------------
