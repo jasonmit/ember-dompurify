@@ -25,7 +25,9 @@ Returns an `htmlSafe` wrapped string:
 <img src="x">
 ```
 
-### Advanced
+### Advanced (custom stateful hooks)
+
+DOMPurify exposes a number of useful hooks.  These hooks can be leveraged to initiate transforms on the HTML you are sanitizing, such as always inserting `target="_blank"` if the element type implements `target` (i.e., `HTMLAnchorElement`).
 
 ```js
 // app/hooks/target-blank.js
