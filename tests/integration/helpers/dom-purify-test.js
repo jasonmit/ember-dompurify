@@ -41,6 +41,17 @@ module('Integration | Helper | dom-purify', function(hooks) {
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
 
+  test('it resets state between runs', async function(assert) {
+    this.owner.register('hook:noop', class EmptyHook extends Hook {});
+    this.set('hookName', 'target-blank');
+
+    await render(hbs`{{dom-purify '<a>Link</a>' hook=hookName}}`);
+    assert.equal(this.element.innerHTML.trim(), '<a target="_blank">Link</a>');
+
+    this.set('hookName', 'noop');
+    assert.equal(this.element.innerHTML.trim(), '<a>Link</a>');
+  });
+
   test('it accepts dompurify options', async function(assert) {
     await render(
       hbs`{{dom-purify '<img src=x data-srcset="foobar" />' ALLOW_DATA_ATTR=false}}`
