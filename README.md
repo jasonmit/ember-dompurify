@@ -20,7 +20,7 @@ ember i ember-dompurify
 {{dom-purify '<img src="x" onerror=alert(1)>'}}
 ```
 
-Returns an htmlSafe string:
+Returns an `htmlSafe` wrapped string:
 ```html
 <img src="x">
 ```
