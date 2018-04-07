@@ -17,7 +17,7 @@ ember i ember-dompurify
 ### Basic
 
 ```hbs
-{{dom-purify '<img src="x" onerror=alert(1) />'}}
+{{dom-purify '<img src="x" onerror=alert(1)>'}}
 ```
 
 Returns an htmlSafe string:
