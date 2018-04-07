@@ -3,20 +3,19 @@ import { htmlSafe } from '@ember/string';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
-import createPurify, { Transform } from 'ember-dompurify';
+import createPurify, { Hook } from 'ember-dompurify';
 
 module('Integration | Helper | dom-purify', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it exists', function(assert) {
     assert.ok(typeof createPurify, 'function');
-    assert.ok(typeof Transform, 'function');
+    assert.ok(typeof Hook, 'function');
   });
 
   test('it renders', async function(assert) {
-    this.set('inputValue', '1234');
-
-    await render(hbs`{{dom-purify inputValue}}`);
+    this.set('input', '1234');
+    await render(hbs`{{dom-purify input}}`);
 
     assert.equal(this.element.innerHTML.trim(), '1234');
   });
@@ -28,8 +27,8 @@ module('Integration | Helper | dom-purify', function(hooks) {
   });
 
   test('it unpacks safe strings', async function(assert) {
-    this.set('safeString', htmlSafe('<img src=x onerror=alert(1) />'));
-    await render(hbs`{{dom-purify safeString}}`);
+    this.set('input', htmlSafe('<img src=x onerror=alert(1) />'));
+    await render(hbs`{{dom-purify input}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
   });
@@ -59,12 +58,12 @@ module('Integration | Helper | dom-purify', function(hooks) {
     );
   });
 
-  test('it accepts a transform', async function(assert) {
+  test('it accepts a hook', async function(assert) {
     assert.expect(10);
 
     this.set(
-      'transform',
-      class AssertionTransform extends Transform {
+      'hook',
+      class AssertionHook extends Hook {
         beforeSanitizeAttributes() {
           assert.ok(true);
         }
@@ -101,20 +100,20 @@ module('Integration | Helper | dom-purify', function(hooks) {
           if (!(el instanceof self.HTMLAnchorElement)) return;
 
           assert.ok(true);
-          assert.ok(this instanceof AssertionTransform);
+          assert.ok(this instanceof AssertionHook);
         }
       }
     );
 
-    await render(hbs`{{dom-purify '<a>' transform=transform}}`);
+    await render(hbs`{{dom-purify '<a>' hook=hook}}`);
   });
 
-  test('it can transform elements', async function(assert) {
+  test('it can hook elements', async function(assert) {
     assert.expect(1);
 
     this.set(
-      'transform',
-      class AttributeBlankTransform extends Transform {
+      'hook',
+      class AttributeBlankHook extends Hook {
         afterSanitizeAttributes(node) {
           if ('target' in node) {
             node.setAttribute('target', '_blank');
@@ -124,7 +123,7 @@ module('Integration | Helper | dom-purify', function(hooks) {
     );
 
     await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' transform=transform}}`
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook=hook}}`
     );
     assert.equal(
       this.element.innerHTML.trim(),
@@ -132,9 +131,9 @@ module('Integration | Helper | dom-purify', function(hooks) {
     );
   });
 
-  test('it can lookup transforms', async function(assert) {
+  test('it can lookup hooks', async function(assert) {
     await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' transform='target-blank'}}`
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}`
     );
     assert.equal(
       this.element.innerHTML.trim(),

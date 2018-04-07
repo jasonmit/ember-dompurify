@@ -1,4 +1,4 @@
-export default class Transform {
+export default class Hook {
   beforeSanitizeElements() {}
   uponSanitizeElement() {}
   afterSanitizeElements() {}

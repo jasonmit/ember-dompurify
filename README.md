@@ -28,10 +28,10 @@ Returns an htmlSafe string:
 ### Advanced
 
 ```js
-// app/purifiers/target-blank.js
-import { Transform } from 'ember-dompurify';
+// app/hooks/target-blank.js
+import { Hook } from 'ember-dompurify';
 
-export default class TargetBlankTransform extends Transform {
+export default class TargetBlankHook extends Hook {
   afterSanitizeAttributes(node) {
     if ('target' in node) {
       node.setAttribute('target', '_blank');
@@ -41,7 +41,7 @@ export default class TargetBlankTransform extends Transform {
 ```
 
 ```hbs
-{{dom-purify '<a src="https://google.com">Link</a>' transform='target-blank'}}
+{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank'}}
 ```
 
 Result:

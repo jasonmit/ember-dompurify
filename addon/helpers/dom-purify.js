@@ -16,64 +16,66 @@ const HOOK_ATTRS = [
 ];
 
 export default Helper.extend({
+  /** @private **/
+  _owner: null,
+
+  /** @public **/
   init() {
     this._super(...arguments);
     this._owner = getOwner(this);
   },
 
-  _normalizeConfigKey(key) {
+  /** @public **/
+  compute([input], attrs) {
+    const inputString = isHTMLSafe(input) ? input.toString() : input;
+
+    if (typeof inputString !== 'string' || !inputString) {
+      return;
+    }
+
+    const domPurify = createDOMPurify(self);
+    const { config, hooks } = this.parseAttributes(attrs);
+    hooks.forEach(([hookName, fn]) => domPurify.addHook(hookName, fn));
+
+    return htmlSafe(domPurify.sanitize(inputString, config));
+  },
+
+  /** @private **/
+  normalizeAttributeName(key) {
     return key.toUpperCase().replace(/-/g, '_');
   },
 
-  _lookupPurifier(name) {
-    return this._owner.factoryFor(`purifier:${name}`).class;
+  /** @private **/
+  lookupHook(name) {
+    return this._owner.factoryFor(`hook:${name}`).class;
   },
 
-  _parse(attrs) {
+  /** @private **/
+  parseAttributes(attrs) {
     const config = Object.create(null);
     const hooks = [];
 
     for (let key in attrs) {
-      if (key === 'transform') {
-        let Transform;
+      if (key === 'hook') {
+        let Hook;
 
         if (typeof attrs[key] === 'string') {
-          Transform = this._lookupPurifier(attrs[key]);
+          Hook = this.lookupHook(attrs[key]);
         } else {
-          Transform = attrs[key];
+          Hook = attrs[key];
         }
 
-        const transform = new Transform();
+        const hook = new Hook();
         HOOK_ATTRS.forEach(key =>
-          hooks.push([key, (...args) => transform[key](...args)])
+          hooks.push([key, (...args) => hook[key](...args)])
         );
       } else if (HOOK_ATTRS.includes(key)) {
-        hooks.push([key, attrs[key]]);
+        hooks.push([key, (...args) => attrs[key](...args)]);
       } else {
-        config[this._normalizeConfigKey(key)] = attrs[key];
+        config[this.normalizeAttributeName(key)] = attrs[key];
       }
     }
 
     return { config, hooks };
-  },
-
-  compute([value = ''], attrs = {}) {
-    let inputString = value;
-    if (!inputString) return;
-
-    if (isHTMLSafe(inputString)) {
-      /* unwrap safeString */
-      inputString = inputString.toString();
-    }
-
-    if (typeof inputString !== 'string' || inputString.length === 0) {
-      return;
-    }
-
-    const purifier = createDOMPurify(self);
-    const { config, hooks } = this._parse(attrs);
-    hooks.forEach(([hookName, fn]) => purifier.addHook(hookName, fn));
-
-    return htmlSafe(purifier.sanitize(inputString, config));
   }
 });

@@ -1,2 +1,2 @@
 export { default } from 'dompurify';
-export { default as Transform } from './transform';
+export { default as Hook } from './hook';
