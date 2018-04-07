@@ -44,6 +44,7 @@ export default Helper.extend({
       /* reset purify state between computes */
       this._purify.removeAllHooks();
       this._purify.clearConfig();
+      this._config = null;
     }
 
     /* re-create new purify state */
