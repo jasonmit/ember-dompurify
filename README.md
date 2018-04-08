@@ -5,6 +5,8 @@
 
 A wrapper around [DOMPurify](https://github.com/cure53/DOMPurify).
 
+> DOMPurify sanitizes HTML and prevents XSS attacks. You can feed DOMPurify with string full of dirty HTML and it will return a string with clean HTML. DOMPurify will strip out everything that contains dangerous HTML and thereby prevent XSS attacks and other nastiness. It's also damn bloody fast. We use the technologies the browser provides and turn them into an XSS filter. The faster your browser, the faster DOMPurify will be.
+
 ## Installation
 
 ```sh
