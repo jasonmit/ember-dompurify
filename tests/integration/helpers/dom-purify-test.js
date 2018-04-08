@@ -119,7 +119,7 @@ module('Integration | Helper | dom-purify', function(hooks) {
     await render(hbs`{{dom-purify '<a>' hook=hook}}`);
   });
 
-  test('it can hook elements', async function(assert) {
+  test('it can transform elements', async function(assert) {
     assert.expect(1);
 
     this.set(
@@ -142,13 +142,34 @@ module('Integration | Helper | dom-purify', function(hooks) {
     );
   });
 
-  test('it can lookup hooks', async function(assert) {
+  test('it can target="_blank"', async function(assert) {
     await render(
       hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}`
     );
     assert.equal(
       this.element.innerHTML.trim(),
       '<a src="http://google.com" target="_blank">Link</a>'
+    );
+  });
+
+  test('it can rel="noopener"', async function(assert) {
+    await render(
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='noopener'}}`
+    );
+    assert.equal(
+      this.element.innerHTML.trim(),
+      '<a src="http://google.com" rel="noopener">Link</a>'
+    );
+  });
+
+  test('it can combine hooks', async function(assert) {
+    await render(
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank noopener'}}`
+    );
+
+    assert.equal(
+      this.element.innerHTML.trim(),
+      '<a src="http://google.com" target="_blank" rel="noopener">Link</a>'
     );
   });
 

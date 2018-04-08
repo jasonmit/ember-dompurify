@@ -1,4 +1,5 @@
 import createDOMPurify from 'dompurify';
+import { makeArray } from '@ember/array';
 import Helper from '@ember/component/helper';
 import { getOwner } from '@ember/application';
 import { htmlSafe, isHTMLSafe } from '@ember/string';
@@ -60,8 +61,10 @@ export default Helper.extend({
   },
 
   /** @private **/
-  lookupHook(name) {
-    return this._owner.factoryFor(`hook:${name}`).class;
+  lookupHooks(name) {
+    return name
+      .split(' ')
+      .map(hookName => this._owner.factoryFor(`hook:${hookName}`).class);
   },
 
   /** @private **/
@@ -70,9 +73,12 @@ export default Helper.extend({
       const value = attrs[key];
 
       if (key === 'hook') {
-        let Hook = typeof value === 'string' ? this.lookupHook(value) : value;
-        const hook = new Hook();
-        HOOKS.forEach(key => this._purify.addHook(key, hook[key].bind(hook)));
+        let hooks =
+          typeof value === 'string'
+            ? this.lookupHooks(value)
+            : makeArray(value);
+
+        hooks.forEach(Hook => new Hook(this._purify));
       } else if (HOOKS.includes(key)) {
         this._purify.addHook(key, (...args) => value(...args));
       } else {
