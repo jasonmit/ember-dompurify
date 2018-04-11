@@ -2,7 +2,7 @@ import createDOMPurify from 'dompurify';
 import { makeArray } from '@ember/array';
 import Helper from '@ember/component/helper';
 import { getOwner } from '@ember/application';
-import { htmlSafe, isHTMLSafe } from '@ember/string';
+import { dasherize, htmlSafe, isHTMLSafe } from '@ember/string';
 
 const HOOKS = [
   'beforeSanitizeElements',
@@ -57,14 +57,14 @@ export default Helper.extend({
 
   /** @private **/
   normalizeAttributeName(key) {
-    return key.toUpperCase().replace(/-/g, '_');
+    return dasherize(key).toUpperCase().replace(/-/g, '_');
   },
 
   /** @private **/
   lookupHooks(name) {
     return name
       .split(' ')
-      .map(hookName => this._owner.factoryFor(`hook:${hookName}`).class);
+      .map(hookName => this._owner.factoryFor(`dompurify-hook:${hookName}`).class);
   },
 
   /** @private **/

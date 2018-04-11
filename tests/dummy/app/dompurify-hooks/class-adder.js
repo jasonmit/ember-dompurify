@@ -1,9 +1,9 @@
-import Hook from '../hook';
+import Hook from 'ember-dompurify/hook';
 
 export default class TargetBlankHook extends Hook {
   afterSanitizeAttributes(node) {
     if (node instanceof HTMLAnchorElement) {
-      node.setAttribute('target', '_blank');
+      node.setAttribute('class', 'foobar');
     }
   }
 }
