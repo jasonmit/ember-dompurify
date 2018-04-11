@@ -60,9 +60,18 @@ module('Integration | Helper | dom-purify', function(hooks) {
     });
 
     test('it can normalize dasherized options', async function(assert) {
-      await render(
-        hbs`{{dom-purify '<img src=x data-srcset="foobar" />' allow-data-attr=false}}`
-      );
+      await render(hbs`
+        {{dom-purify '<img src=x data-srcset="foobar" />' allow-data-attr=false}}
+      `);
+
+      assert.dom('img').hasAttribute('src', 'x');
+      assert.dom('img').doesNotHaveAttribute('data-srcset');
+    });
+
+    test('it can normalize `camelCase` options', async function(assert) {
+      await render(hbs`
+        {{dom-purify '<img src=x data-srcset="foobar" />' allowDataAttr=false}}
+      `);
 
       assert.dom('img').hasAttribute('src', 'x');
       assert.dom('img').doesNotHaveAttribute('data-srcset');
