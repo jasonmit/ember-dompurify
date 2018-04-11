@@ -3,7 +3,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Hooks | target-blank', function(hooks) {
+module('Integration | DOMPurify Hooks | target-blank', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it works', async function(assert) {

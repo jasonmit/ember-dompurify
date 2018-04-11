@@ -36,7 +36,7 @@ module('Integration | Helper | dom-purify', function(hooks) {
   });
 
   test('it resets state between runs', async function(assert) {
-    this.owner.register('hook:noop', class EmptyHook extends Hook {});
+    this.owner.register('dompurify-hook:noop', class EmptyHook extends Hook {});
     this.set('hookName', 'target-blank');
 
     await render(hbs`{{dom-purify '<a>Link</a>' hook=hookName}}`);

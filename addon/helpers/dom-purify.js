@@ -64,7 +64,7 @@ export default Helper.extend({
   lookupHooks(name) {
     return name
       .split(' ')
-      .map(hookName => this._owner.factoryFor(`hook:${hookName}`).class);
+      .map(hookName => this._owner.factoryFor(`dompurify-hook:${hookName}`).class);
   },
 
   /** @private **/

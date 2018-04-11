@@ -32,7 +32,7 @@ Returns an `Ember.String.htmlSafe` object:
 DOMPurify exposes a number of useful hooks.  These hooks can be leveraged to initiate transforms on the HTML you are sanitizing, such as always inserting `target="_blank"` if the element type implements `target` (i.e., `HTMLAnchorElement`).
 
 ```js
-// app/hooks/target-blank.js (built-in but an example of the public API)
+// app/dompurify-hooks/target-blank.js (built-in but an example of the public API)
 import { Hook } from 'ember-dompurify';
 
 export default class TargetBlankHook extends Hook {
@@ -52,10 +52,10 @@ export default class TargetBlankHook extends Hook {
 Result:
 
 ```html
-<a src="https://google.com" target="_blank">Link</a>
+<a src="https://google.com" target="_blank" rel="noopener">Link</a>
 ```
 
-_Note_: hooks can be combined (example: `{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank some-other-transform}}`)
+_Note_: Hooks can be combined (example: `{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank some-other-transform}}`)
 
 ### Built-in hooks
 
