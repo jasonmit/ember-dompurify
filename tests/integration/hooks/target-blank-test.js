@@ -7,12 +7,12 @@ module('Integration | Hooks | target-blank', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it works', async function(assert) {
-    await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}`
-    );
-    assert.equal(
-      this.element.innerHTML.trim(),
-      '<a src="http://google.com" target="_blank" rel="noopener">Link</a>'
-    );
+    await render(hbs`
+      {{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}
+    `);
+
+    assert.dom('a').hasAttribute('target', '_blank');
+    assert.dom('a').hasAttribute('rel', 'noopener');
+    assert.dom('a').hasText('Link');
   });
 });
