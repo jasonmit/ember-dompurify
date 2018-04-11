@@ -37,8 +37,9 @@ import { Hook } from 'ember-dompurify';
 
 export default class TargetBlankHook extends Hook {
   afterSanitizeAttributes(node) {
-    if ('target' in node) {
+    if (node instanceof HTMLAnchorElement) {
       node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener');
     }
   }
 }
@@ -54,20 +55,12 @@ Result:
 <a src="https://google.com" target="_blank">Link</a>
 ```
 
+_Note_: hooks can be combined (example: `{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank some-other-transform}}`)
+
 ### Built-in hooks
 
 These are commonly used and bundled with ember-dompurify.  If you have other hooks you would like to add, please submit a PR or open an issue for a proposal.
 
-#### noopener
-
-```hbs
-{{dom-purify '<a src="https://google.com">Link</a>' hook='noopener'}}
-```
-
-Result:
-
-```html
-<a src="https://google.com" rel="noopener">Link</a>
 ```
 
 #### target-blank
@@ -79,10 +72,8 @@ Result:
 Result:
 
 ```html
-<a src="https://google.com" target="_blank">Link</a>
+<a src="https://google.com" target="_blank" rel="noopener">Link</a>
 ```
-
-_Note_: hooks can be combined (example: `{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank noopener'}}`)
 
 ## API
 

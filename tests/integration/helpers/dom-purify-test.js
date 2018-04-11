@@ -8,19 +8,19 @@ import createPurify, { Hook } from 'ember-dompurify';
 module('Integration | Helper | dom-purify', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it exists', function(assert) {
+  test('it exports the documented API', function(assert) {
     assert.ok(typeof createPurify, 'function');
     assert.ok(typeof Hook, 'function');
   });
 
-  test('it renders', async function(assert) {
+  test('it returns the passed-in content', async function(assert) {
     this.set('input', '1234');
     await render(hbs`{{dom-purify input}}`);
 
     assert.equal(this.element.innerHTML.trim(), '1234');
   });
 
-  test('it works', async function(assert) {
+  test('it strips out potential security risks', async function(assert) {
     await render(hbs`{{dom-purify '<img src=x onerror=alert(1) />'}}`);
 
     assert.equal(this.element.innerHTML.trim(), '<img src="x">');
@@ -46,7 +46,10 @@ module('Integration | Helper | dom-purify', function(hooks) {
     this.set('hookName', 'target-blank');
 
     await render(hbs`{{dom-purify '<a>Link</a>' hook=hookName}}`);
-    assert.equal(this.element.innerHTML.trim(), '<a target="_blank">Link</a>');
+    assert.equal(
+      this.element.innerHTML.trim(),
+      '<a target="_blank" rel="noopener">Link</a>'
+    );
 
     this.set('hookName', 'noop');
     assert.equal(this.element.innerHTML.trim(), '<a>Link</a>');
@@ -142,34 +145,14 @@ module('Integration | Helper | dom-purify', function(hooks) {
     );
   });
 
-  test('it can target="_blank"', async function(assert) {
-    await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}`
-    );
-    assert.equal(
-      this.element.innerHTML.trim(),
-      '<a src="http://google.com" target="_blank">Link</a>'
-    );
-  });
-
-  test('it can rel="noopener"', async function(assert) {
-    await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='noopener'}}`
-    );
-    assert.equal(
-      this.element.innerHTML.trim(),
-      '<a src="http://google.com" rel="noopener">Link</a>'
-    );
-  });
-
   test('it can combine hooks', async function(assert) {
     await render(
-      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank noopener'}}`
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank class-adder'}}`
     );
 
     assert.equal(
       this.element.innerHTML.trim(),
-      '<a src="http://google.com" target="_blank" rel="noopener">Link</a>'
+      '<a src="http://google.com" target="_blank" rel="noopener" class="foobar">Link</a>'
     );
   });
 

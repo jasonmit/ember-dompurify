@@ -1,0 +1,18 @@
+import { module, test } from 'qunit';
+import { render } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { setupRenderingTest } from 'ember-qunit';
+
+module('Integration | Hooks | target-blank', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it works', async function(assert) {
+    await render(
+      hbs`{{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}`
+    );
+    assert.equal(
+      this.element.innerHTML.trim(),
+      '<a src="http://google.com" target="_blank" rel="noopener">Link</a>'
+    );
+  });
+});
