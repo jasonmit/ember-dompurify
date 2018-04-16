@@ -55,7 +55,7 @@ Result:
 <a src="https://google.com" target="_blank" rel="noopener">Link</a>
 ```
 
-_Note_: Hooks can be combined (example: `{{dom-purify '<a src="https://google.com">Link</a>' hook='target-blank some-other-transform}}`)
+_Note_: Multiple hooks can be provided as a string separated by spaces - i.e, `{{dom-purify '<a src="https://google.com">Link</a>' hook='hook-one hook-two}}`)
 
 ### Built-in hooks
 
