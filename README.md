@@ -29,7 +29,7 @@ Returns an `Ember.String.htmlSafe` object:
 
 ### Advanced (custom stateful hooks)
 
-DOMPurify exposes a number of useful hooks.  These hooks can be leveraged to initiate transforms on the HTML you are sanitizing, such as always inserting `target="_blank"` if the element type implements `target` (i.e., `HTMLAnchorElement`).
+DOMPurify exposes a number of useful hooks.  These hooks can be leveraged to initiate transforms on the HTML you are sanitizing, such as always inserting `target="_blank"` on all `HTMLAnchorElement` elements.
 
 ```js
 // app/dompurify-hooks/target-blank.js (built-in but an example of the public API)
