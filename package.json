@@ -29,7 +29,6 @@
   "dependencies": {
     "broccoli-funnel": "^2.0.1",
     "broccoli-source": "^1.1.0",
-    "broccoli-stew": "^1.5.0",
     "broccoli-string-replace": "^0.1.2",
     "dompurify": "^1.0.3",
     "ember-cli-babel": "^6.6.0"
