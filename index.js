@@ -6,7 +6,7 @@ const stringReplace = require('broccoli-string-replace');
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 
 module.exports = {
-  name: 'ember-dompurify',
+  name: require('./package').name,
 
   included() {
     this._super.included.apply(this, arguments);
