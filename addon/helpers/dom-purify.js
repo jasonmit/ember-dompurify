@@ -13,25 +13,25 @@ const HOOKS = [
   'afterSanitizeAttributes',
   'beforeSanitizeShadowDOM',
   'uponSanitizeShadowNode',
-  'afterSanitizeShadowDOM'
+  'afterSanitizeShadowDOM',
 ];
 
-export default Helper.extend({
+export default class DomPurify extends Helper {
   /** @private **/
-  _owner: null,
+  _owner = null;
 
   /** @private **/
-  _config: null,
+  _config = null;
 
   /** @private **/
-  _purify: null,
+  _purify = null;
 
   /** @public **/
-  init() {
-    this._super(...arguments);
+  constructor(...args) {
+    super(...args);
     this._owner = getOwner(this);
     this._purify = createDOMPurify(self);
-  },
+  }
 
   /** @public **/
   compute([input], attrs) {
@@ -53,19 +53,21 @@ export default Helper.extend({
     this._purify.setConfig(this._config);
 
     return htmlSafe(this._purify.sanitize(inputString));
-  },
+  }
 
   /** @private **/
   normalizeAttributeName(key) {
     return dasherize(key).toUpperCase().replace(/-/g, '_');
-  },
+  }
 
   /** @private **/
   lookupHooks(name) {
     return name
       .split(' ')
-      .map(hookName => this._owner.factoryFor(`dompurify-hook:${hookName}`).class);
-  },
+      .map(
+        (hookName) => this._owner.factoryFor(`dompurify-hook:${hookName}`).class
+      );
+  }
 
   /** @private **/
   parseAttributes(attrs) {
@@ -78,7 +80,7 @@ export default Helper.extend({
             ? this.lookupHooks(value)
             : makeArray(value);
 
-        hooks.forEach(Hook => new Hook(this._purify));
+        hooks.forEach((Hook) => new Hook(this._purify));
       } else if (HOOKS.includes(key)) {
         this._purify.addHook(key, (...args) => value(...args));
       } else {
@@ -88,4 +90,4 @@ export default Helper.extend({
       return accum;
     }, {});
   }
-});
+}
