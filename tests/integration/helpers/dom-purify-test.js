@@ -5,41 +5,41 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import createPurify, { Hook } from 'ember-dompurify';
 
-module('Integration | Helper | dom-purify', function(hooks) {
+module('Integration | Helper | dom-purify', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it exports the documented API', function(assert) {
+  test('it exports the documented API', function (assert) {
     assert.ok(typeof createPurify, 'function');
     assert.ok(typeof Hook, 'function');
   });
 
-  test('it can pass through content without DOM nodes', async function(assert) {
+  test('it can pass through content without DOM nodes', async function (assert) {
     this.set('input', '1234');
-    await render(hbs`{{dom-purify input}}`);
+    await render(hbs`{{dom-purify this.input}}`);
 
     assert.equal(this.element.innerHTML.trim(), '1234');
   });
 
-  test('it strips out potential security risks', async function(assert) {
+  test('it strips out potential security risks', async function (assert) {
     await render(hbs`{{dom-purify '<img src=x onerror=alert(1) />'}}`);
 
     assert.dom('img').hasAttribute('src', 'x');
     assert.dom('img').doesNotHaveAttribute('onerror');
   });
 
-  test('it unpacks safe strings', async function(assert) {
+  test('it unpacks safe strings', async function (assert) {
     this.set('input', htmlSafe('<img src=x onerror=alert(1) />'));
-    await render(hbs`{{dom-purify input}}`);
+    await render(hbs`{{dom-purify this.input}}`);
 
     assert.dom('img').hasAttribute('src', 'x');
     assert.dom('img').doesNotHaveAttribute('onerror');
   });
 
-  test('it resets state between runs', async function(assert) {
+  test('it resets state between runs', async function (assert) {
     this.owner.register('dompurify-hook:noop', class EmptyHook extends Hook {});
     this.set('hookName', 'target-blank');
 
-    await render(hbs`{{dom-purify '<a>Link</a>' hook=hookName}}`);
+    await render(hbs`{{dom-purify '<a>Link</a>' hook=this.hookName}}`);
 
     assert.dom('a').hasAttribute('target', '_blank');
     assert.dom('a').hasAttribute('rel', 'noopener');
@@ -50,8 +50,8 @@ module('Integration | Helper | dom-purify', function(hooks) {
     assert.dom('a').doesNotHaveAttribute('rel');
   });
 
-  module('accepting dompurify options', function() {
-    test('it accepts options in their original format', async function(assert) {
+  module('accepting dompurify options', function () {
+    test('it accepts options in their original format', async function (assert) {
       await render(hbs`
         {{dom-purify '<img src=x data-srcset="foobar" />' ALLOW_DATA_ATTR=false}}
       `);
@@ -59,7 +59,7 @@ module('Integration | Helper | dom-purify', function(hooks) {
       assert.equal(this.element.innerHTML.trim(), '<img src="x">');
     });
 
-    test('it can normalize dasherized options', async function(assert) {
+    test('it can normalize dasherized options', async function (assert) {
       await render(hbs`
         {{dom-purify '<img src=x data-srcset="foobar" />' allow-data-attr=false}}
       `);
@@ -68,7 +68,7 @@ module('Integration | Helper | dom-purify', function(hooks) {
       assert.dom('img').doesNotHaveAttribute('data-srcset');
     });
 
-    test('it can normalize `camelCase` options', async function(assert) {
+    test('it can normalize `camelCase` options', async function (assert) {
       await render(hbs`
         {{dom-purify '<img src=x data-srcset="foobar" />' allowDataAttr=false}}
       `);
@@ -78,17 +78,17 @@ module('Integration | Helper | dom-purify', function(hooks) {
     });
   });
 
-  module('invoking hooks', function() {
-    test('receiving a function for a specific hook', async function(assert) {
+  module('invoking hooks', function () {
+    test('receiving a function for a specific hook', async function (assert) {
       assert.expect(2); /* once for src, once for onerror */
       this.set('uponSanitizeAttribute', () => assert.ok(true));
 
       await render(hbs`
-        {{dom-purify '<img src="x" onerror=alert(1) />' uponSanitizeAttribute=uponSanitizeAttribute}}
+        {{dom-purify '<img src="x" onerror=alert(1) />' uponSanitizeAttribute=this.uponSanitizeAttribute}}
       `);
     });
 
-    test('receiving a class of hooks', async function(assert) {
+    test('receiving a class of hooks', async function (assert) {
       assert.expect(10);
 
       this.set(
@@ -135,12 +135,12 @@ module('Integration | Helper | dom-purify', function(hooks) {
         }
       );
 
-      await render(hbs`{{dom-purify '<a>' hook=hook}}`);
+      await render(hbs`{{dom-purify '<a>' hook=this.hook}}`);
     });
   });
 
-  module('hooks in the registry', function() {
-    test('it can combine hooks', async function(assert) {
+  module('hooks in the registry', function () {
+    test('it can combine hooks', async function (assert) {
       await render(hbs`
         {{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank class-adder'}}
       `);
@@ -151,11 +151,11 @@ module('Integration | Helper | dom-purify', function(hooks) {
     });
   });
 
-  test('it can handle falsey values passed in', async function(assert) {
+  test('it can handle falsey values passed in', async function (assert) {
     this.set('input', undefined);
-    await render(hbs`{{dom-purify input}}`);
+    await render(hbs`{{dom-purify this.input}}`);
 
-    [undefined, null, false, ''].forEach(input => {
+    [undefined, null, false, ''].forEach((input) => {
       this.set('input', input);
       assert.equal(this.element.innerHTML.trim(), '');
     });

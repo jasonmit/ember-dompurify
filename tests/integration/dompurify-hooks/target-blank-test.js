@@ -3,10 +3,10 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | DOMPurify Hooks | target-blank', function(hooks) {
+module('Integration | DOMPurify Hooks | target-blank', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it works', async function(assert) {
+  test('it works', async function (assert) {
     await render(hbs`
       {{dom-purify '<a src="http://google.com">Link</a>' hook='target-blank'}}
     `);

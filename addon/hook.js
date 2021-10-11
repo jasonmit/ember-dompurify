@@ -6,15 +6,42 @@ export default class Hook {
 
   /** @private **/
   _setup() {
-    this._purify.addHook('beforeSanitizeElements', this.beforeSanitizeElements.bind(this));
-    this._purify.addHook('uponSanitizeElement', this.uponSanitizeElement.bind(this));
-    this._purify.addHook('afterSanitizeElements', this.afterSanitizeElements.bind(this));
-    this._purify.addHook('beforeSanitizeAttributes', this.beforeSanitizeAttributes.bind(this));
-    this._purify.addHook('uponSanitizeAttribute', this.uponSanitizeAttribute.bind(this));
-    this._purify.addHook('afterSanitizeAttributes', this.afterSanitizeAttributes.bind(this));
-    this._purify.addHook('beforeSanitizeShadowDOM', this.beforeSanitizeShadowDOM.bind(this));
-    this._purify.addHook('uponSanitizeShadowNode', this.uponSanitizeShadowNode.bind(this));
-    this._purify.addHook('afterSanitizeShadowDOM', this.afterSanitizeShadowDOM.bind(this));
+    this._purify.addHook(
+      'beforeSanitizeElements',
+      this.beforeSanitizeElements.bind(this)
+    );
+    this._purify.addHook(
+      'uponSanitizeElement',
+      this.uponSanitizeElement.bind(this)
+    );
+    this._purify.addHook(
+      'afterSanitizeElements',
+      this.afterSanitizeElements.bind(this)
+    );
+    this._purify.addHook(
+      'beforeSanitizeAttributes',
+      this.beforeSanitizeAttributes.bind(this)
+    );
+    this._purify.addHook(
+      'uponSanitizeAttribute',
+      this.uponSanitizeAttribute.bind(this)
+    );
+    this._purify.addHook(
+      'afterSanitizeAttributes',
+      this.afterSanitizeAttributes.bind(this)
+    );
+    this._purify.addHook(
+      'beforeSanitizeShadowDOM',
+      this.beforeSanitizeShadowDOM.bind(this)
+    );
+    this._purify.addHook(
+      'uponSanitizeShadowNode',
+      this.uponSanitizeShadowNode.bind(this)
+    );
+    this._purify.addHook(
+      'afterSanitizeShadowDOM',
+      this.afterSanitizeShadowDOM.bind(this)
+    );
   }
 
   /** @public **/

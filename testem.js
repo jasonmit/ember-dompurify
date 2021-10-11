@@ -17,6 +17,8 @@ module.exports = {
         '--mute-audio',
         '--remote-debugging-port=0',
         '--window-size=1440,900',
+        '--no-sandbox',
+        '--user-data-dir=/tmp',
       ].filter(Boolean),
     },
   },
