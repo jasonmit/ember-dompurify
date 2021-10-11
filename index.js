@@ -6,13 +6,13 @@ const stringReplace = require('broccoli-string-replace');
 const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 
 module.exports = {
-  name: 'ember-dompurify',
+  name: require('./package').name,
 
   included() {
     this._super.included.apply(this, arguments);
 
     this.import('vendor/purify.js', {
-      using: [{ transformation: 'amd', as: 'dompurify' }]
+      using: [{ transformation: 'amd', as: 'dompurify' }],
     });
   },
 
@@ -44,18 +44,18 @@ module.exports = {
       patterns: [
         {
           match: /\/\/# sourceMappingURL=purify.js.map/g,
-          replacement: ''
-        }
-      ]
+          replacement: '',
+        },
+      ],
     });
   },
 
   treeForVendor() {
     let purifyPath = this.findModulePath(this.project.root);
     let tree = funnel(new UnwatchedDir(purifyPath), {
-      include: ['purify.js']
+      include: ['purify.js'],
     });
 
     return this.removeSourcemapAnnotation(tree);
-  }
+  },
 };
